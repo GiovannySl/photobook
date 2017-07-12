@@ -7,12 +7,13 @@
 <% end  %>
 
 <p>
-<%= link_to "create", posts_new_path %>
-</p>
+  <%= link_to "Create", posts_new_path %>
+</pp>
 <% @posts.each do |post| %>
 <div>
   <%= time_ago_in_words post.created_at %>
   <p>
+    <%= image_tag post.photo.url(:medium) %><br>
     <%= post.description %>
   </p>
   <hr>
