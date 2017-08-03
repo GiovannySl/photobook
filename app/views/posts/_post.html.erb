@@ -1,4 +1,6 @@
-<div class="post">
+<% profilable = true if local_assigns[:profilable].nil? %>
+<% linkable   = true if local_assigns[:linkable].nil? %>
+<div class="post" data-id="<%= post.id %>">
   <% if profilable %>
   <div class="post__header">
       <%= link_to profile_path(post.user.username) do %>
@@ -21,9 +23,23 @@
         <% end %>
       <% end %>
       <%= post.description %>
+      <div class="post__comments">
+      <% post.comments.each do |comment| %>
+        <%= render 'comments/comment', comment: comment %>
+      <% end %>
+      </div>
     </div>
   </div>
   <div class="post__footer">
+    <div class="post__published">
     <%= time_ago_in_words post.created_at %>
+    </div>
+    <% if user_signed_in? %>
+      <div class="post__comments_form">
+      <%= form_with(model: @comment, url: comments_path(post.id)) do |f| %>
+        <%= f.text_field :text, placeholder: "Add comment" %>
+      <% end %>
+      </div>
+    <% end %>
   </div>
 </div>
